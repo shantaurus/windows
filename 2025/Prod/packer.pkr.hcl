@@ -7,7 +7,11 @@ variable "instance_type" {
   type    = string
   default = "t3.micro" # Changed from t3.xlarge to remain Free Tier friendly
 }
-
+variable "use_custom_ami" {
+  type        = bool
+  default     = true
+  description = "Flag to determine whether to build incrementally from last month's AMI or start fresh from base."
+}
 locals {
   timestamp       = formatdate("YYYYMM", timestamp())
   build_timestamp = formatdate("YYYYMMDD-hhmm", timestamp())
