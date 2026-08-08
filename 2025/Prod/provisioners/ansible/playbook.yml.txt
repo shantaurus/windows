@@ -1,0 +1,26 @@
+---
+- hosts: all
+  any_errors_fatal: true
+  gather_facts: true
+
+  tasks:
+    - name: Ping host via WinRM
+      ansible.windows.win_ping:
+
+    - name: Run Windows Security and Critical Updates
+      ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+        reboot: true
+        reboot_timeout: 3600
+      register: win_updates
+      until: win_updates.failed is not defined or not win_updates.failed
+      retries: 3
+      delay: 60
+
+    - name: Ensure Windows Update service is set to manual
+      ansible.windows.win_service:
+        name: wuauserv
+        start_mode: manual
+        state: stopped
