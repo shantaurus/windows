@@ -16,8 +16,8 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'us-east-1'
-        PACKER_DIR         = 'windows/2025/prod'
-        ANSIBLE_DIR        = 'windows/2025/prod/provisioners/ansible'
+        PACKER_DIR         = '2025/Prod'
+        ANSIBLE_DIR        = '2025/Prod/provisioners/ansible'
     }
 
     options {
