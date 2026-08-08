@@ -19,11 +19,18 @@ locals {
   ami_name        = "Enlyte-Authorized-AMI-Win2025-${local.timestamp}-${local.build_timestamp}"
 }
 
+variable "winrm_password" {
+  type      = string
+  default   = "YourKnownAdminPassword123!"  # Set the password used in your custom AMI
+  sensitive = true
+}
+
 source "amazon-ebs" "windows_buildami" {
   region         = var.aws_region
   instance_type  = var.instance_type
   communicator   = "winrm"
   winrm_username = "Administrator"
+  winrm_password = var.winrm_password   # <--- THIS SKIPS THE AWS PASSWORD LOOKUP!
   winrm_insecure = true
   winrm_use_ssl  = false
   winrm_timeout  = "45m"
