@@ -28,6 +28,9 @@ source "amazon-ebs" "windows_buildami" {
   winrm_use_ssl  = false
   winrm_timeout  = "45m"
 
+  # ADD THIS LINE:
+  user_data_file = "./provisioners/scripts/bootstrap_winrm.ps1"
+
  source_ami_filter {
     filters = {
       name                = var.use_custom_ami ? "Enlyte-Authorized-AMI-Win2025-*" : "Windows_Server-2025-English-Full-Base-*"
