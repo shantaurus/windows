@@ -42,10 +42,10 @@ pipeline {
             }
         }
 
-        stage('Packer Init & Validate') {
+       stage('Packer Init & Validate') {
             steps {
-                // Securely inject AWS Credentials stored in Jenkins
-                withCredentials([aws(credentialsId: 'aws-packer-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                // Securely inject AWS Credentials using standard usernamePassword wrapper
+                withCredentials([usernamePassword(credentialsId: 'aws-packer-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     dir("${PACKER_DIR}") {
                         sh 'packer init .'
                         sh 'packer validate .'
@@ -56,7 +56,7 @@ pipeline {
 
         stage('Build Windows AMI') {
             steps {
-                withCredentials([aws(credentialsId: 'aws-packer-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withCredentials([usernamePassword(credentialsId: 'aws-packer-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     dir("${PACKER_DIR}") {
                         script {
                             // Convert boolean parameter to string for Packer variable
