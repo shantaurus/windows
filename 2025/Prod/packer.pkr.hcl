@@ -12,6 +12,7 @@ variable "use_custom_ami" {
   default     = true
   description = "Flag to determine whether to build incrementally from last month's AMI or start fresh from base."
 }
+
 locals {
   timestamp       = formatdate("YYYYMM", timestamp())
   build_timestamp = formatdate("YYYYMMDD-hhmm", timestamp())
@@ -27,14 +28,14 @@ source "amazon-ebs" "windows_buildami" {
   winrm_use_ssl  = false
   winrm_timeout  = "45m"
 
-  source_ami_filter {
+ source_ami_filter {
     filters = {
-      name                = "Windows_Server-2025-English-Full-Base-*"
+      name                = var.use_custom_ami ? "Enlyte-Authorized-AMI-Win2025-*" : "Windows_Server-2025-English-Full-Base-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
     most_recent = true
-    owners      = ["801119661308"] # AWS Official
+    owners      = var.use_custom_ami ? ["self"] : ["801119661308"]
   }
 
   ami_name = local.ami_name
