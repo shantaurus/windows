@@ -9,7 +9,7 @@ variable "instance_type" {
 }
 variable "use_custom_ami" {
   type        = bool
-  default     = true
+  default     = false
   description = "Flag to determine whether to build incrementally from last month's AMI or start fresh from base."
 }
 
@@ -70,14 +70,14 @@ build {
 
   # 1. Provision using Ansible
   provisioner "ansible" {
-    playbook_file    = "./provisioners/ansible/playbook.yml"
-    galaxy_file      = "./provisioners/ansible/requirements.yml"
-    use_proxy        = false
-    user             = "Administrator"
-    extra_arguments  = [
+    playbook_file = "./provisioners/ansible/playbook.yml"
+    galaxy_file   = "./provisioners/ansible/requirements.yml"
+    use_proxy     = false
+    user          = "Administrator"
+    extra_arguments = [
       "-e", "ansible_winrm_server_cert_validation=ignore",
       "-e", "ansible_winrm_operation_timeout_sec=3600",
-      "-e", "ansible_winrm_read_timeout_sec=3600"
+      "-e", "ansible_winrm_read_timeout_sec=3700"  # <--- MUST BE GREATER THAN 3600
     ]
   }
 
