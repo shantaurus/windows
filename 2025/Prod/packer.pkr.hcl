@@ -69,6 +69,7 @@ build {
   sources = ["source.amazon-ebs.windows_buildami"]
 
   # 1. Provision using Ansible
+
   provisioner "ansible" {
     playbook_file = "./provisioners/ansible/playbook.yml"
     galaxy_file   = "./provisioners/ansible/requirements.yml"
@@ -77,7 +78,7 @@ build {
     extra_arguments = [
       "-e", "ansible_winrm_server_cert_validation=ignore",
       "-e", "ansible_winrm_operation_timeout_sec=3600",
-      "-e", "ansible_winrm_read_timeout_sec=3700"  # <--- MUST BE GREATER THAN 3600
+      "-e", "ansible_winrm_read_timeout_sec=3700"  # <--- Changed from 3600 to 3700
     ]
   }
 
