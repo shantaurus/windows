@@ -4,8 +4,12 @@
   gather_facts: false
 
   tasks:
-    - name: Ping host via WinRM
+    - name: Ping host via WinRM (Wait for WinRM to stabilize)
       ansible.windows.win_ping:
+      register: win_ping_res
+      until: win_ping_res is succeeded
+      retries: 6
+      delay: 10
 
     - name: Prevent Windows User Profile Service from unloading HKCU registry hive
       ansible.windows.win_regedit:
