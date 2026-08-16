@@ -35,7 +35,7 @@ source "amazon-ebs" "windows_buildami" {
   winrm_use_ssl  = false
   winrm_timeout  = "45m"
 
-  # ADD THIS LINE HERE AGAIN BRANCH Prashanth to main 3:
+  # ADD THIS LINE HERE AGAIN BRANCH 34:
   user_data_file = "./provisioners/scripts/bootstrap_winrm.ps1"
 
  source_ami_filter {
